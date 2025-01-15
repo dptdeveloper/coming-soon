@@ -1,9 +1,11 @@
 var yourDate = "2025-01-31"; // Set fixed target date
 
-!function(e) {
-    // Initialize moment
-    var moment = a(0);
-    a(139);
+!function() {
+    // Use moment directly instead of 'a' reference
+    if (typeof moment === 'undefined') {
+        console.error('Moment.js is not loaded! Please include moment.js before this script');
+        return;
+    }
 
     // Cache DOM elements
     var daysElem = document.querySelector(".days"),
@@ -18,17 +20,16 @@ var yourDate = "2025-01-31"; // Set fixed target date
 
     function updateCountdown() {
         try {
-            // Get current and end dates
+            // Get current and end dates using moment directly
             var now = moment();
             var end = moment(yourDate);
             var diff = end.diff(now);
 
             // Convert to time units
-            var duration = moment.duration(diff);
-            var days = Math.floor(duration.asDays());
-            var hours = duration.hours();
-            var minutes = duration.minutes();
-            var seconds = duration.seconds();
+            var days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
             // Update display with validation
             if (diff > 0) {
@@ -37,7 +38,6 @@ var yourDate = "2025-01-31"; // Set fixed target date
                 minutesElem.textContent = minutes < 10 ? "0" + minutes : minutes;
                 secondsElem.textContent = seconds < 10 ? "0" + seconds : seconds;
             } else {
-                // Reset to zeros if time has passed
                 daysElem.textContent = "00";
                 hoursElem.textContent = "00";
                 minutesElem.textContent = "00";
@@ -51,6 +51,6 @@ var yourDate = "2025-01-31"; // Set fixed target date
     // Start countdown
     updateCountdown();
     setInterval(updateCountdown, 1000);
-}(yourDate);
+}();
 
 

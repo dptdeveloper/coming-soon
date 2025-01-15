@@ -1,7 +1,7 @@
 var yourDate = "2025-01-31"; // Set fixed target date
 
-!function() {
-    // Use moment directly instead of 'a' reference
+!function () {
+    // Check if moment.js is loaded
     if (typeof moment === 'undefined') {
         console.error('Moment.js is not loaded! Please include moment.js before this script');
         return;
